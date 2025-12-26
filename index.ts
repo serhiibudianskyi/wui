@@ -1,5 +1,8 @@
+// Type exports
 export * from './src/types/Field';
 export * from './src/types/Form';
-export * from './src/components/Field';
-export * from './src/components/FileField';
-export * from './src/components/Form';
+
+// Component exports
+export { default as Field } from './src/components/Field';
+export { default as FileField } from './src/components/FileField';
+export { default as Form } from './src/components/Form';

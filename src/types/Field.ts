@@ -59,7 +59,7 @@ export interface FieldConfig {
 }
 
 // Field class representing a form field
-export class Field<T = any> {
+export class FieldClass<T = any> {
     // Configuration for the field
     protected readonly _config: FieldConfig = {} as FieldConfig;
     // Zod schema for the field
@@ -210,7 +210,7 @@ export class FieldFactory {
     }
 
     // Create a text field with the given configuration
-    static text(name: string, label: string, config: Partial<FieldConfig> = {}): Field<string> {
+    static text(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<string> {
         const fieldConfig = {
             type: 'text' as FieldType,
             name,
@@ -218,11 +218,11 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createStringSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createStringSchema(fieldConfig));
     }
 
     // Create an email field with the given configuration
-    static email(config: Partial<FieldConfig>): Field<string> {
+    static email(config: Partial<FieldConfig>): FieldClass<string> {
         const fieldConfig = {
             type: 'email' as FieldType,
             name: config.name || 'email',
@@ -230,11 +230,11 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createEmailSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createEmailSchema(fieldConfig));
     }
 
     // Create a password field with the given configuration
-    static password(config: Partial<FieldConfig>): Field<string> {
+    static password(config: Partial<FieldConfig>): FieldClass<string> {
         const fieldConfig = {
             type: 'password' as FieldType,
             name: config.name || 'password',
@@ -242,11 +242,11 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createStringSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createStringSchema(fieldConfig));
     }
 
     // Create a textarea field with the given configuration
-    static textarea(name: string, label: string, config: Partial<FieldConfig> = {}): Field<string> {
+    static textarea(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<string> {
         const fieldConfig = {
             type: 'textarea' as FieldType,
             name,
@@ -254,7 +254,7 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createStringSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createStringSchema(fieldConfig));
     }
 
     // Create a Zod schema for number fields
@@ -305,7 +305,7 @@ export class FieldFactory {
     }
 
     // Create a number field with the given configuration
-    static number(name: string, label: string, config: Partial<FieldConfig> = {}): Field<number | undefined> {
+    static number(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<number | undefined> {
         const fieldConfig = {
             type: 'number' as FieldType,
             name,
@@ -313,7 +313,7 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createNumberSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createNumberSchema(fieldConfig));
     }
 
     // Create a Zod schema for checkbox fields
@@ -332,7 +332,7 @@ export class FieldFactory {
     }
 
     // Create a checkbox field with the given configuration
-    static checkbox(name: string, label: string, config: Partial<FieldConfig> = {}): Field<boolean> {
+    static checkbox(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<boolean> {
         const fieldConfig = {
             type: 'checkbox' as FieldType,
             name,
@@ -340,7 +340,7 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createCheckboxSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createCheckboxSchema(fieldConfig));
     }
 
     // Create a Zod schema for date fields
@@ -392,7 +392,7 @@ export class FieldFactory {
     }
 
     // Create a date field with the given configuration
-    static date(name: string, label: string, config: Partial<FieldConfig> = {}): Field<Date | undefined> {
+    static date(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<Date | undefined> {
         const fieldConfig = {
             type: 'date' as FieldType,
             name,
@@ -400,7 +400,7 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createDateSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createDateSchema(fieldConfig));
     }
 
     // Create a Zod schema for datetime-local fields
@@ -452,7 +452,7 @@ export class FieldFactory {
     }
 
     // Create a datetime-local field with the given configuration
-    static datetimeLocal(name: string, label: string, config: Partial<FieldConfig> = {}): Field<Date | undefined> {
+    static datetimeLocal(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<Date | undefined> {
         const fieldConfig = {
             type: 'datetime-local' as FieldType,
             name,
@@ -460,7 +460,7 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createDateTimeLocalSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createDateTimeLocalSchema(fieldConfig));
     }
 
     // Create a Zod schema for time fields
@@ -509,7 +509,7 @@ export class FieldFactory {
     }
 
     // Create a time field with the given configuration
-    static time(name: string, label: string, config: Partial<FieldConfig> = {}): Field<string | undefined> {
+    static time(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<string | undefined> {
         const fieldConfig = {
             type: 'time' as FieldType,
             name,
@@ -517,11 +517,11 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createTimeSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createTimeSchema(fieldConfig));
     }
 
     // Create a radio field with the given configuration
-    static radio(name: string, label: string, options: Option[], config: Partial<FieldConfig> = {}): Field<string> {
+    static radio(name: string, label: string, options: Option[], config: Partial<FieldConfig> = {}): FieldClass<string> {
         const fieldConfig = {
             type: 'radio' as FieldType,
             name,
@@ -530,7 +530,7 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createStringSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createStringSchema(fieldConfig));
     }
 
     // Create a Zod schema for select fields
@@ -568,7 +568,7 @@ export class FieldFactory {
     }
 
     // Create a select field with the given configuration
-    static select(name: string, label: string, options: Option[], config: Partial<FieldConfig> = {}): Field<Option | Option[] | null> {
+    static select(name: string, label: string, options: Option[], config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
         const fieldConfig = {
             type: 'select' as FieldType,
             name,
@@ -577,11 +577,11 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createSelectSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createSelectSchema(fieldConfig));
     }
 
     // Create an async-select field with the given configuration
-    static asyncSelect(name: string, label: string, loadOptions: (search: string) => Promise<Option[]>, config: Partial<FieldConfig> = {}): Field<Option | Option[] | null> {
+    static asyncSelect(name: string, label: string, loadOptions: (search: string) => Promise<Option[]>, config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
         const fieldConfig = {
             type: 'async-select' as FieldType,
             name,
@@ -590,11 +590,11 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createSelectSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createSelectSchema(fieldConfig));
     }
 
     // Create a creatable-select field with the given configuration
-    static creatableSelect(name: string, label: string, options: Option[], config: Partial<FieldConfig> = {}): Field<Option | Option[] | null> {
+    static creatableSelect(name: string, label: string, options: Option[], config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
         const fieldConfig = {
             type: 'creatable-select' as FieldType,
             name,
@@ -603,11 +603,11 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createSelectSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createSelectSchema(fieldConfig));
     }
 
     // Create an async-creatable-select field with the given configuration
-    static asyncCreatableSelect(name: string, label: string, loadOptions: (search: string) => Promise<Option[]>, config: Partial<FieldConfig> = {}): Field<Option | Option[] | null> {
+    static asyncCreatableSelect(name: string, label: string, loadOptions: (search: string) => Promise<Option[]>, config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
         const fieldConfig = {
             type: 'async-creatable-select' as FieldType,
             name,
@@ -616,7 +616,7 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createSelectSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createSelectSchema(fieldConfig));
     }
 
     private static createFileSchema(config: FieldConfig): z.ZodType<string | string[] | null> {
@@ -654,7 +654,7 @@ export class FieldFactory {
     }
 
     // Create a file field with the given configuration
-    static file(name: string, label: string, config: Partial<FieldConfig> = {}): Field<string | string[] | null> {
+    static file(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<string | string[] | null> {
         const fieldConfig = {
             type: 'file' as FieldType,
             name,
@@ -662,6 +662,6 @@ export class FieldFactory {
             ...config
         };
 
-        return new Field(fieldConfig, this.createFileSchema(fieldConfig));
+        return new FieldClass(fieldConfig, this.createFileSchema(fieldConfig));
     }
 }

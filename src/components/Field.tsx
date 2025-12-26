@@ -1,5 +1,5 @@
 import { UseFormRegisterReturn, Control, useController } from 'react-hook-form';
-import type { Field as FieldType, Option } from '../types/Field';
+import type { FieldClass, Option } from '../types/Field';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
@@ -7,7 +7,7 @@ import AsyncCreatableSelect from 'react-select/async-creatable';
 import FileField from './FileField';
 
 interface FieldProps {
-    field: FieldType; // The field configuration
+    field: FieldClass; // The field configuration
     register: UseFormRegisterReturn; // Registration object from react-hook-form
     control: Control<any>; // Control object from react-hook-form
 }

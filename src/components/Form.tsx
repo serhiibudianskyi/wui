@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
-import type { Form as FormType, Section } from '../types/Form';
-import type { Field as FieldType } from '../types/Field';
+import type { FormClass, Section } from '../types/Form';
+import type { FieldClass } from '../types/Field';
 import Field from './Field';
 
 interface FormProps {
-    form: FormType; // The form configuration
+    form: FormClass; // The form configuration
     onSubmit: (data: any) => Promise<void>; // The submit handler
     showReset?: boolean; // Whether to show the reset button
 }
@@ -46,7 +46,7 @@ export default function Form({
         }
     };
 
-    const validateFormFields = async (field: FieldType) => {
+    const validateFormFields = async (field: FieldClass) => {
         const fieldNames = Object.values(form.sections)
             .flatMap(section => Object.values(section.fields))
             .map(f => f.name);
@@ -64,7 +64,7 @@ export default function Form({
         clearErrors(untouchedAfterFields);
     };
 
-    const getFieldRegister = (field: FieldType) => {
+    const getFieldRegister = (field: FieldClass) => {
         const baseRegister = register(field.name, {
             valueAsNumber: field.type === 'number'
         });
@@ -88,7 +88,7 @@ export default function Form({
     };
 
     // Render a single field
-    const renderField = (field: FieldType) => {
+    const renderField = (field: FieldClass) => {
         const fieldRegister = getFieldRegister(field);
 
         return (

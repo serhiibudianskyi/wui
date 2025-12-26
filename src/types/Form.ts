@@ -1,15 +1,15 @@
 import { z } from 'zod';
-import { Field } from './Field';
+import { FieldClass } from './Field';
 
 export interface Section {
     title?: string;
-    fields: Record<string, Field<any>>;
+    fields: Record<string, FieldClass<any>>;
     className?: string;
 }
 
-export class Form {
-    // Form fields
-    private _fields: Record<string, Field<any>> = {};
+export class FormClass {
+    // Form class fields
+    private _fields: Record<string, FieldClass<any>> = {};
     // Zod schema for the form
     private _schema: z.ZodSchema<any> | null = null;
     // Default values for the form
@@ -79,8 +79,8 @@ export class Form {
     }
 
     // Extract fields from sections
-    private _extractFieldsFromSections(): Record<string, Field<any>> {
-        const fields: Record<string, Field<any>> = {};
+    private _extractFieldsFromSections(): Record<string, FieldClass<any>> {
+        const fields: Record<string, FieldClass<any>> = {};
 
         for (const section of this._sections) {
             Object.assign(fields, section.fields);
@@ -125,8 +125,8 @@ export class FormBuilder {
     }
 
     // Build and return the form instance
-    build(): Form {
-        const form = new Form(this._sections);
+    build(): FormClass {
+        const form = new FormClass(this._sections);
         
         form.setDefaultValues(this._defaultValues);
 

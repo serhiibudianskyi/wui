@@ -1,3 +1,8 @@
+// Global style imports
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'react-toastify/dist/ReactToastify.css';
+
 // Type exports
 export * from './src/types/Field';
 export * from './src/types/Form';

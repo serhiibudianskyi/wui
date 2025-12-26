@@ -1,0 +1,3 @@
+.drag-over button {
+    pointer-events: none;
+}

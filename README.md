@@ -1,2 +1,2 @@
 # wui
-Web User Interface library
+Web User Interface npm libray

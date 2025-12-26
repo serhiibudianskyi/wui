@@ -1,0 +1,60 @@
+{
+    "name": "@serhiibudianskyi/wui",
+    "version": "0.0.1",
+    "description": "Web User Interface npm libray",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "prepublishOnly": "npm run build"
+    },
+    "files": [
+        "dist"
+    ],
+    "keywords": [
+        "form",
+        "fields",
+        "library",
+        "typescript",
+        "front-end",
+        "ui",
+        "components"
+    ],
+    "author": "Serhii Budianskyi",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/serhiibudianskyi/wui.git"
+    },
+    "homepage": "https://github.com/serhiibudianskyi/wui#readme",
+    "bugs": {
+        "url": "https://github.com/serhiibudianskyi/wui/issues"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "peerDependencies": {
+        "typescript": "^5.0.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-hook-form": "^7.53.0",
+        "react-router-dom": "^7.6.3",
+        "react-select": "^5.10.2",
+        "react-toastify": "^10.0.6",
+        "@types/react": "^18.2.0",
+        "@types/react-dom": "^18.2.0"
+    },
+    "dependencies": {
+        "zod": "^4.0.17",
+        "filesize": "^11.0.13",
+        "@rpldy/uploady": "^1.12.0",
+        "@rpldy/upload-button": "^1.12.0",
+        "@rpldy/upload-preview": "^1.12.0",
+        "@rpldy/upload-drop-zone": "^1.12.0",
+        "@hookform/resolvers": "^5.2.1"
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

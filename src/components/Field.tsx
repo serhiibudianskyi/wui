@@ -5,6 +5,7 @@ import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import FileField from './FileField';
+import '../styles/bootstrap-ext.css';
 
 interface FieldProps {
     field: FieldClass; // The field configuration

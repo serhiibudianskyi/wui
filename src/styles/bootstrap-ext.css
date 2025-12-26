@@ -1,0 +1,13 @@
+.was-validated .form-control:invalid:focus, 
+.form-control.is-invalid:focus,
+.form-control.is-invalid:focus-within { /* custom styles for react-select invalid state */
+    border-color: var(--bs-form-invalid-border-color);
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.25);
+}
+
+.was-validated .form-control:valid:focus, 
+.form-control.is-valid:focus,
+.form-control.is-valid:focus-within { /* custom styles for react-select valid state */
+    border-color: var(--bs-form-valid-border-color);
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.25);
+}

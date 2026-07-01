@@ -105,16 +105,22 @@ export default function Form({
     const renderSection = (section: Section) => {
         return (
             <div className={`${section.className} mb-4`}>
-                <div className='card'>
-                    <div className='card-header'>
-                        {section.title && <h3>{section.title}</h3>}
+                {section.title ? (
+                    <div className='card'>
+                        <div className='card-header'>
+                            <h3>{section.title}</h3>
+                        </div>
+                        <div className='card-body'>
+                            <div className='row g-3'>
+                                {Object.values(section.fields).map(field => renderField(field))}
+                            </div>
+                        </div>
                     </div>
-                    <div className='card-body'>
-                <div className='row g-3'>
-                    {Object.values(section.fields).map(field => renderField(field))}
-                </div>
-                </div>
-            </div>
+                ) : (
+                    <div className='row g-3'>
+                        {Object.values(section.fields).map(field => renderField(field))}
+                    </div>
+                )}
             </div>
         );
     };

@@ -102,9 +102,9 @@ export default function Form({
     };
 
     // Render section
-    const renderSection = (section: Section) => {
+    const renderSection = (section: Section, index: number) => {
         return (
-            <div className={`${section.className} mb-4`}>
+            <div key={section.title || index} className={`${section.className} mb-4`}>
                 {section.title ? (
                     <div className='card'>
                         <div className='card-header'>
@@ -157,7 +157,7 @@ export default function Form({
             noValidate
         >
             {/* Render form fields */}
-            {form.sections.map(section => renderSection(section))}
+            {form.sections.map((section, index) => renderSection(section, index))}
             {/* Render buttons */}
             {renderButtons()}
         </form>

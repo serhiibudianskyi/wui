@@ -22,7 +22,7 @@ export default function Field({
     control,
     language = 'en',
 }: FieldProps): JSX.Element {
-    const containerClasses: string[] = ['mb-3'];
+    const containerClasses: string[] = ['mb-2'];
 
     // Language translations
     const tr = fieldTranslations[language as keyof typeof fieldTranslations] || fieldTranslations['en'];

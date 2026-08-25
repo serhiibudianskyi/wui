@@ -11,6 +11,7 @@ interface FormProps {
     onSubmit: (data: any) => Promise<void>; // The submit handler
     showReset?: boolean; // Whether to show the reset button
     language?: string; // Optional language for localization
+    className?: string; // Optional class name for the form
 }
 
 export default function Form({
@@ -18,6 +19,7 @@ export default function Form({
     onSubmit,
     showReset = false,
     language = 'en',
+    className = '',
 }: FormProps): JSX.Element {
     // Initialize react-hook-form with zod resolver
     const {
@@ -130,7 +132,7 @@ export default function Form({
     // Render form buttons
     const renderButtons = () => {
         return (
-            <>
+            <div className='my-1'>
                 <button
                     type='submit'
                     className='btn btn-primary'
@@ -148,20 +150,20 @@ export default function Form({
                         {tr.reset}
                     </button>
                 )}
-            </>
+            </div>
         );
     };
 
     return (
         <form
-            className='row'
+            className={`w-100 ${className}`}
             onSubmit={handleSubmit(handleFormSubmit)}
             noValidate
         >
             <div className='card'>
                 {form.title && (
                     <div className='card-header'>
-                        <h2>{form.title}</h2>
+                        <h2 className='my-1'>{form.title}</h2>
                     </div>
                 )}
                 <div className='card-body'>

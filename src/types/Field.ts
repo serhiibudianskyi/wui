@@ -222,7 +222,7 @@ export class FieldFactory {
     }
 
     // Create an email field with the given configuration
-    static email(config: Partial<FieldConfig>): FieldClass<string> {
+    static email(config: Partial<FieldConfig> = {}): FieldClass<string> {
         const fieldConfig = {
             type: 'email' as FieldType,
             name: config.name || 'email',
@@ -234,7 +234,7 @@ export class FieldFactory {
     }
 
     // Create a password field with the given configuration
-    static password(config: Partial<FieldConfig>): FieldClass<string> {
+    static password(config: Partial<FieldConfig> = {}): FieldClass<string> {
         const fieldConfig = {
             type: 'password' as FieldType,
             name: config.name || 'password',

@@ -111,11 +111,16 @@ export default function Form({
     // Render section
     const renderSection = (section: Section, index: number) => {
         return (
-            <fieldset key={section.title || index} className={`${section.className || ''}`}>
+            <fieldset 
+                key={section.title || index} 
+                className={`${section.className || ''} ${section.title ? 'card' : ''}`}
+            >
                 {section.title &&
-                    <legend>{section.title}</legend>
+                    <div className='card-header'>
+                        <h5 className='mb-0'>{section.title}</h5>
+                    </div>
                 }
-                <div className='row'>
+                <div className={`row ${section.title ? 'card-body' : ''}`}>
                     {Object.values(section.fields).map(field => renderField(field))}
                 </div>
             </fieldset>

@@ -22,8 +22,8 @@ export default function Field({
     control,
     language = 'en',
 }: FieldProps): JSX.Element {
-    const containerClasses: string[] = [];
-    
+    const containerClasses: string[] = ['mb-3'];
+
     // Language translations
     const tr = fieldTranslations[language as keyof typeof fieldTranslations] || fieldTranslations['en'];
     const i18nReplace = (message: string, pairs: Record<string, string>): string => {
@@ -210,9 +210,9 @@ export default function Field({
             case 'textarea':
                 return <textarea {...baseProps} />;
             case 'file':
-                return <FileField 
-                    {...controllerField} 
-                    {...baseProps} 
+                return <FileField
+                    {...controllerField}
+                    {...baseProps}
                     language={language}
                 />;
             case 'checkbox':

@@ -13,8 +13,8 @@ interface FormProps {
     language?: string; // Optional language for localization
 }
 
-export default function Form({ 
-    form, 
+export default function Form({
+    form,
     onSubmit,
     showReset = false,
     language = 'en',
@@ -29,9 +29,9 @@ export default function Form({
         control,
         formState: {
             touchedFields,
-            isSubmitting, 
-            isValid, 
-            isDirty 
+            isSubmitting,
+            isValid,
+            isDirty
         }
     } = useForm({
         resolver: zodResolver(form.schema) as any,
@@ -111,58 +111,63 @@ export default function Form({
     // Render section
     const renderSection = (section: Section, index: number) => {
         return (
-            <div key={section.title || index} className={`${section.className} mb-4`}>
-                <div className='card'>
-                    {section.title &&
-                        <div className='card-header'>
-                            <h3>{section.title}</h3>
-                        </div>
-                    }
-                    <div className='card-body'>
-                        <div className='row g-3'>
-                            {Object.values(section.fields).map(field => renderField(field))}
-                        </div>
-                    </div>
+            <fieldset key={section.title || index} className={`${section.className || ''}`}>
+                {section.title &&
+                    <legend>{section.title}</legend>
+                }
+                <div className='row'>
+                    {Object.values(section.fields).map(field => renderField(field))}
                 </div>
-            </div>
+            </fieldset>
         );
     };
 
     // Render form buttons
     const renderButtons = () => {
         return (
-            <div className='d-flex gap-2'>
-                <button 
-                    type='submit' 
-                    className='btn btn-primary' 
+            <>
+                <button
+                    type='submit'
+                    className='btn btn-primary'
                     disabled={!isDirty || !isValid || isSubmitting}
                 >
                     {isSubmitting ? tr.submitting : tr.submit}
                 </button>
                 {showReset && (
-                    <button 
-                        type='button' 
-                        className='btn btn-secondary' 
+                    <button
+                        type='button'
+                        className='btn btn-secondary'
                         onClick={() => reset()}
                         disabled={!isDirty || isSubmitting}
                     >
                         {tr.reset}
                     </button>
                 )}
-            </div>
-        );    
+            </>
+        );
     };
 
     return (
-        <form 
+        <form
             className='row'
-            onSubmit={handleSubmit(handleFormSubmit)} 
+            onSubmit={handleSubmit(handleFormSubmit)}
             noValidate
         >
-            {/* Render form fields */}
-            {form.sections.map((section, index) => renderSection(section, index))}
-            {/* Render buttons */}
-            {renderButtons()}
+            <div className='card'>
+                {form.title && (
+                    <div className='card-header'>
+                        <h2>{form.title}</h2>
+                    </div>
+                )}
+                <div className='card-body'>
+                    {/* Render form fields */}
+                    {form.sections.map((section, index) => renderSection(section, index))}
+                </div>
+                <div className='card-footer'>
+                    {/* Render buttons */}
+                    {renderButtons()}
+                </div>
+            </div>
         </form>
     );
 }

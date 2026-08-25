@@ -8,6 +8,8 @@ export interface Section {
 }
 
 export class FormClass {
+    // Form title (optional)
+    private _title: string | undefined = undefined;
     // Form class fields
     private _fields: Record<string, FieldClass<any>> = {};
     // Zod schema for the form
@@ -18,10 +20,15 @@ export class FormClass {
     private _sections: Section[] = [];
 
     // Alternative constructor to initialize the form with sections
-    constructor(sections: Section[]) {
+    constructor(title: string, sections: Section[]) {
+        this._title = title;
         this._sections = sections;
         this._fields = this._extractFieldsFromSections();
         this._buildDefaultValues();
+    }
+
+    get title(): string | undefined {
+        return this._title;
     }
 
     get sections(): Section[] {
@@ -57,10 +64,10 @@ export class FormClass {
 
             // Wrap the schema with preprocessing to normalize the value
             schema = z.preprocess(field.getNormalizedValue.bind(field), schema);
-    
+
             shape[name] = schema;
         }
-        
+
         // Return the combined schema with custom refinements callback
         return z.object(shape).superRefine((values, ctx) => {
             for (const field of Object.values(this._fields)) {
@@ -91,15 +98,22 @@ export class FormClass {
 }
 
 export class FormBuilder {
+    private _title: string = '';
     // Set of sections of fields for the form
     private _sections: Section[] = [];
     // Default values for the form
     private _defaultValues: Record<string, any> = {};
 
+    // Set the title of the form
+    title(title: string): this {
+        this._title = title;
+        return this;
+    }
+
     // Add a section to the form
     section(section: Section): this {
         this._sections.push(section);
-        
+
         // Extract default values from section fields
         for (const [name, field] of Object.entries(section.fields)) {
             this._defaultValues[name] = field.getDefaultValue();
@@ -126,8 +140,8 @@ export class FormBuilder {
 
     // Build and return the form instance
     build(): FormClass {
-        const form = new FormClass(this._sections);
-        
+        const form = new FormClass(this._title, this._sections);
+
         form.setDefaultValues(this._defaultValues);
 
         return form;

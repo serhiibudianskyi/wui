@@ -4,17 +4,20 @@ import { toast } from 'react-toastify';
 import type { FormClass, Section } from '../types/Form';
 import type { FieldClass } from '../types/Field';
 import Field from './Field';
+import { formTranslations } from '../i18n/form';
 
 interface FormProps {
     form: FormClass; // The form configuration
     onSubmit: (data: any) => Promise<void>; // The submit handler
     showReset?: boolean; // Whether to show the reset button
+    language?: string; // Optional language for localization
 }
 
 export default function Form({ 
     form, 
     onSubmit,
-    showReset = false
+    showReset = false,
+    language = 'en',
 }: FormProps): JSX.Element {
     // Initialize react-hook-form with zod resolver
     const {
@@ -36,13 +39,16 @@ export default function Form({
         defaultValues: form.defaultValues
     });
 
+    // Language translations
+    const tr = formTranslations[language as keyof typeof formTranslations] || formTranslations['en'];
+
     // Handle form submission
     const handleFormSubmit = async (data: any): Promise<void> => {
         try {
             await onSubmit(data);
             reset(data);
         } catch (error: any) {
-            toast.error('Form submission failed');
+            toast.error(tr.failed);
         }
     };
 
@@ -97,6 +103,7 @@ export default function Form({
                 field={field}
                 register={fieldRegister}
                 control={control}
+                language={language}
             />
         );
     };
@@ -130,7 +137,7 @@ export default function Form({
                     className='btn btn-primary' 
                     disabled={!isDirty || !isValid || isSubmitting}
                 >
-                    {isSubmitting ? 'Submitting...' : 'Submit'}
+                    {isSubmitting ? tr.submitting : tr.submit}
                 </button>
                 {showReset && (
                     <button 
@@ -139,7 +146,7 @@ export default function Form({
                         onClick={() => reset()}
                         disabled={!isDirty || isSubmitting}
                     >
-                        Reset
+                        {tr.reset}
                     </button>
                 )}
             </div>

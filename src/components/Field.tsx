@@ -6,19 +6,33 @@ import CreatableSelect from 'react-select/creatable';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import FileField from './FileField';
 import '../styles/bootstrap-ext.css';
+import { fieldTranslations } from '../i18n/field';
 
 interface FieldProps {
     field: FieldClass; // The field configuration
     register: UseFormRegisterReturn; // Registration object from react-hook-form
     control: Control<any>; // Control object from react-hook-form
+    language?: string; // Optional language for localization
 }
 
 export default function Field({
     field,
     register,
     control,
+    language = 'en',
 }: FieldProps): JSX.Element {
     const containerClasses: string[] = [];
+    
+    // Language translations
+    const tr = fieldTranslations[language as keyof typeof fieldTranslations] || fieldTranslations['en'];
+    const replaceByPairs = (message: string, pairs: Record<string, string>): string => {
+        let result = message;
+        for (const [key, value] of Object.entries(pairs)) {
+            const regex = new RegExp(`{{${key}}}`, 'g');
+            result = result.replace(regex, value);
+        }
+        return result;
+    };
 
     // Get field state from react-hook-form
     const { field: controllerField, fieldState } = useController({
@@ -134,7 +148,7 @@ export default function Field({
             htmlFor={field.name}
             className='form-label'
         >
-            {field.label} {field.isRequired &&
+            {tr[field.name as keyof typeof tr] || field.label} {field.isRequired &&
                 <span
                     className='text-danger'
                     title='Field is required'
@@ -220,7 +234,14 @@ export default function Field({
 
         return (
             <div className='invalid-feedback d-block'>
-                {fieldState.error.message}
+                {replaceByPairs(
+                    tr[fieldState.error.message as keyof typeof tr] || fieldState.error.message || '',
+                    {
+                        label: tr[field.name as keyof typeof tr] || field.label,
+                        min: field.min?.toString() || '',
+                        max: field.max?.toString() || ''
+                    }
+                )}
             </div>
         );
     }

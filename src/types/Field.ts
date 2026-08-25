@@ -196,7 +196,15 @@ export class FieldFactory {
 
         // Apply required validation if specified
         if (config.isRequired) {
-            schema = schema.nonempty({ message: `${config.label} is required` });
+            schema = schema.nonempty({ message: `{{label}} is required` });
+        }
+
+        if (config.min !== undefined) {
+            schema = schema.min(config.min as number, { message: `{{label}} must be at least {{min}} characters` });
+        }
+
+        if (config.max !== undefined) {
+            schema = schema.max(config.max as number, { message: `{{label}} must be at most {{max}} characters` });
         }
 
         return schema;

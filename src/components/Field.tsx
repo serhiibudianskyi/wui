@@ -5,8 +5,9 @@ import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import FileField from './FileField';
-import '../styles/bootstrap-ext.css';
 import { fieldTranslations } from '../i18n/field';
+
+import '../styles/bootstrap-ext.css';
 
 interface FieldProps {
     field: FieldClass; // The field configuration
@@ -25,7 +26,7 @@ export default function Field({
     
     // Language translations
     const tr = fieldTranslations[language as keyof typeof fieldTranslations] || fieldTranslations['en'];
-    const replaceByPairs = (message: string, pairs: Record<string, string>): string => {
+    const i18nReplace = (message: string, pairs: Record<string, string>): string => {
         let result = message;
         for (const [key, value] of Object.entries(pairs)) {
             const regex = new RegExp(`{{${key}}}`, 'g');
@@ -212,6 +213,7 @@ export default function Field({
                 return <FileField 
                     {...controllerField} 
                     {...baseProps} 
+                    language={language}
                 />;
             case 'checkbox':
             case 'number':
@@ -234,7 +236,7 @@ export default function Field({
 
         return (
             <div className='invalid-feedback d-block'>
-                {replaceByPairs(
+                {i18nReplace(
                     tr[fieldState.error.message as keyof typeof tr] || fieldState.error.message || '',
                     {
                         label: tr[field.name as keyof typeof tr] || field.label,

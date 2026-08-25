@@ -6,6 +6,8 @@ import type { PreviewComponentProps } from '@rpldy/upload-preview';
 import { useState, forwardRef, useEffect, useRef, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { filesize } from 'filesize';
+import { fileFieldTranslations } from '../i18n/fileField';
+
 import '../styles/uploady-ext.css';
 
 interface FileFieldProps {
@@ -16,11 +18,23 @@ interface FileFieldProps {
     isMultiple?: boolean;
     maxFiles?: number;
     maxSize?: number; // in bytes
+    language?: string; // Optional language for localization
 }
 
-const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
-    ({ value, onChange, className, accept, isMultiple, maxFiles, maxSize }, ref) => {
+const FileField = forwardRef<HTMLInputElement, FileFieldProps>(({ 
+    value, 
+    onChange, 
+    className, 
+    accept, 
+    isMultiple, 
+    maxFiles, 
+    maxSize, 
+    language 
+}, ref) => {
         const height: number = 200;
+
+        // Translations
+        const tr = fileFieldTranslations[language as keyof typeof fileFieldTranslations] || fileFieldTranslations['en'];
 
         // State to store file metadata for preview
         const [fileMetadata, setFileMetadata] = useState<Map<string, any>>(new Map());
@@ -86,13 +100,13 @@ const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
                 const sizeMB = (file.size / 1024 / 1024).toFixed(2);
                 const maxSizeMB = (maxSize / 1024 / 1024).toFixed(2);
 
-                toast.error(`File '${file.name}' is too large (${sizeMB}MB). Maximum allowed size is ${maxSizeMB}MB. ${file.name} blocked`);
+                toast.error(tr.fileTooLarge(file.name, sizeMB, maxSizeMB));
                 return false;
             }
 
             // Check maxFiles limit
             if (maxFiles && currentCount >= maxFiles) {
-                toast.error(`Max files limit reached (${maxFiles}): ${file.name} blocked`);
+                toast.error(tr.maxFiles(maxFiles, file.name));
                 return false;
             }
 
@@ -102,7 +116,7 @@ const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
             );
 
             if (isDuplicate) {
-                toast.error(`Duplicate file blocked: ${file.name}`);
+                toast.error(tr.duplicateFile(file.name));
                 return false;
             }
 
@@ -148,7 +162,7 @@ const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
             });
 
             useItemErrorListener((item) => {
-                toast.error(item?.uploadResponse?.data?.error || 'Upload failed');
+                toast.error(item?.uploadResponse?.data?.error || tr.failed);
                 // Remove preview and progress for errored item
                 setFileMetadata(prev => {
                     const newMap = new Map(prev);
@@ -275,7 +289,6 @@ const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
             const abortItem = useAbortItem();
 
             const handleCancel = () => {
-                console.log('Cancelling upload for item id:', id);
                 // Abort the upload
                 abortItem(id);
 
@@ -292,7 +305,7 @@ const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
                 // Decrement counter
                 uploadingCountRef.current = Math.max(0, uploadingCountRef.current - 1);
 
-                toast.info('Upload cancelled');
+                toast.info(tr.cancelled);
             };
 
             const handleRemove = async () => {

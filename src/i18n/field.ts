@@ -12,8 +12,8 @@ export const fieldTranslations = {
         email: 'Електронна пошта',
         password: 'Пароль',
 
-        'Invalid email address': 'Невірна електронна адреса',
-        '{{label}} is required': '{{label}} обов\'язкове',
+        'Invalid email address': 'Невірна адреса електронної пошти',
+        '{{label}} is required': '{{label}} обов\'язково',
         '{{label}} must be at least {{min}} characters': '{{label}} має бути не менше {{min}} символів',
         '{{label}} must be at most {{max}} characters': '{{label}} має бути не більше {{max}} символів',
     },
@@ -22,7 +22,7 @@ export const fieldTranslations = {
         password: 'Пароль',
 
         'Invalid email address': 'Неверный адрес электронной почты',
-        '{{label}} is required': '{{label}} является обязательным',
+        '{{label}} is required': '{{label}} обязательно',
         '{{label}} must be at least {{min}} characters': '{{label}} должно быть не менее {{min}} символов',
         '{{label}} must be at most {{max}} characters': '{{label}} должно быть не более {{max}} символов',
     },

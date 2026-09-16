@@ -1,4 +1,4 @@
-export const fileFieldTranslations = {
+export default {
     en: {
         fileTooLarge: (fileName: string, sizeMB: string, maxSizeMB: string) => `File '${fileName}' is too large (${sizeMB}MB). Maximum allowed size is ${maxSizeMB}MB. ${fileName} blocked`,
         maxFiles: (maxFiles: number, fileName: string) => `Max files limit reached (${maxFiles}): ${fileName} blocked`,

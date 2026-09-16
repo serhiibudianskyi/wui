@@ -6,7 +6,7 @@ import type { PreviewComponentProps } from '@rpldy/upload-preview';
 import { useState, forwardRef, useEffect, useRef, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { filesize } from 'filesize';
-import { fileFieldTranslations } from '../i18n/fileField';
+import fileFieldTr from '../i18n/fileField';
 
 import '../styles/uploady-ext.css';
 
@@ -34,7 +34,7 @@ const FileField = forwardRef<HTMLInputElement, FileFieldProps>(({
         const height: number = 200;
 
         // Translations
-        const tr = fileFieldTranslations[language as keyof typeof fileFieldTranslations] || fileFieldTranslations['en'];
+        const tr = fileFieldTr[language as keyof typeof fileFieldTr] || fileFieldTr['en'];
 
         // State to store file metadata for preview
         const [fileMetadata, setFileMetadata] = useState<Map<string, any>>(new Map());

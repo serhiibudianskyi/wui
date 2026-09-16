@@ -1,4 +1,4 @@
-export const fieldTranslations = {
+export default {
     en: {
         email: 'Email',
         password: 'Password',

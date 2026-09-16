@@ -1,4 +1,4 @@
-export const formTranslations = {
+export default {
     en: {
         submit: 'Submit',
         submitting: 'Submitting...',

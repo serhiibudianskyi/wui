@@ -5,7 +5,7 @@ import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import FileField from './FileField';
-import { fieldTranslations } from '../i18n/field';
+import fieldTr from '../i18n/field';
 
 import '../styles/bootstrap-ext.css';
 
@@ -25,7 +25,7 @@ export default function Field({
     const containerClasses: string[] = ['mb-2'];
 
     // Language translations
-    const tr = fieldTranslations[language as keyof typeof fieldTranslations] || fieldTranslations['en'];
+    const tr = fieldTr[language as keyof typeof fieldTr] || fieldTr['en'];
     const i18nReplace = (message: string, pairs: Record<string, string>): string => {
         let result = message;
         for (const [key, value] of Object.entries(pairs)) {

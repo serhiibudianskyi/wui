@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import type { FormClass, Section } from '../types/Form';
 import type { FieldClass } from '../types/Field';
 import Field from './Field';
-import { formTranslations } from '../i18n/form';
+import formTr from '../i18n/form';
 
 interface FormProps {
     form: FormClass; // The form configuration
@@ -42,7 +42,7 @@ export default function Form({
     });
 
     // Language translations
-    const tr = formTranslations[language as keyof typeof formTranslations] || formTranslations['en'];
+    const tr = formTr[language as keyof typeof formTr] || formTr['en'];
 
     // Handle form submission
     const handleFormSubmit = async (data: any): Promise<void> => {

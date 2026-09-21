@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
@@ -11,7 +12,9 @@ interface FormProps {
     onSubmit: (data: any) => Promise<void>; // The submit handler
     showReset?: boolean; // Whether to show the reset button
     language?: string; // Optional language for localization
+    translations?: Record<string, string>; // Optional translations for the form
     className?: string; // Optional class name for the form
+    isCard?: boolean; // Optional flag to indicate if the form should be displayed as a card
 }
 
 export default function Form({
@@ -19,7 +22,9 @@ export default function Form({
     onSubmit,
     showReset = false,
     language = 'en',
+    translations = {},
     className = '',
+    isCard = true,
 }: FormProps): JSX.Element {
     // Initialize react-hook-form with zod resolver
     const {
@@ -41,8 +46,13 @@ export default function Form({
         defaultValues: form.defaultValues
     });
 
+    // Re-run validation so already-shown error messages pick up the new form/language
+    useEffect(() => {
+        trigger();
+    }, [form, language, trigger]);
+
     // Language translations
-    const tr = formTr[language as keyof typeof formTr] || formTr['en'];
+    const tr = { ...formTr[language as keyof typeof formTr] || formTr['en'], ...translations };
 
     // Handle form submission
     const handleFormSubmit = async (data: any): Promise<void> => {
@@ -132,7 +142,7 @@ export default function Form({
     // Render form buttons
     const renderButtons = () => {
         return (
-            <div className='my-1'>
+            <div className='my-2'>
                 <button
                     type='submit'
                     className='btn btn-primary'
@@ -160,17 +170,17 @@ export default function Form({
             onSubmit={handleSubmit(handleFormSubmit)}
             noValidate
         >
-            <div className='card'>
+            <div className={isCard ? 'card' : ''}>
                 {form.title && (
-                    <div className='card-header'>
+                    <div className={isCard ? 'card-header' : ''}>
                         <h2 className='my-1'>{form.title}</h2>
                     </div>
                 )}
-                <div className='card-body'>
+                <div className={isCard ? 'card-body' : ''}>
                     {/* Render form fields */}
                     {form.sections.map((section, index) => renderSection(section, index))}
                 </div>
-                <div className='card-footer'>
+                <div className={isCard ? 'card-footer' : ''}>
                     {/* Render buttons */}
                     {renderButtons()}
                 </div>

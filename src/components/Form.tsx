@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
@@ -36,6 +36,7 @@ export default function Form({
         control,
         formState: {
             touchedFields,
+            errors,
             isSubmitting,
             isValid,
             isDirty
@@ -46,10 +47,16 @@ export default function Form({
         defaultValues: form.defaultValues
     });
 
-    // Re-run validation so already-shown error messages pick up the new form/language
+    const hasMounted = useRef(false);
+
     useEffect(() => {
-        trigger();
-    }, [form, language, trigger]);
+        if (!hasMounted.current) {
+            hasMounted.current = true;
+            return;
+        }
+
+        void trigger(Object.keys(errors));
+    }, [language]);
 
     // Language translations
     const tr = { ...formTr[language as keyof typeof formTr] || formTr['en'], ...translations };

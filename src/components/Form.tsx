@@ -132,7 +132,7 @@ export default function Form({
         return (
             <fieldset 
                 key={section.title || index} 
-                className={`${section.className || ''} ${section.title ? 'card' : ''}`}
+                className={`${section.className || ''} ${section.title ? 'card' : ''} mb-3`}
             >
                 {section.title &&
                     <div className='card-header'>
@@ -183,7 +183,7 @@ export default function Form({
                         <h2 className='my-1'>{form.title}</h2>
                     </div>
                 )}
-                <div className={isCard ? 'card-body' : ''}>
+                <div className={`${isCard ? 'card-body' : ''}`}>
                     {/* Render form fields */}
                     {form.sections.map((section, index) => renderSection(section, index))}
                 </div>

@@ -176,7 +176,13 @@ export default function Field({
             // Override onChange to include string normalization on real-time input
             baseProps.onInput = async (event: any) => {
                 // Apply normalization
-                const normalizedValue = field.getNormalizedValue(event.target.value);
+                let normalizedValue = field.getNormalizedValue(event.target.value);
+                if (field.capitalize) {
+                    normalizedValue = String(normalizedValue).replace(
+                        /(^|[^\p{L}\p{N}])(\p{L})/gu,
+                        (_, separator, letter) => separator + letter.toLocaleUpperCase(),
+                    ) as typeof normalizedValue;
+                }
                 event.target.value = normalizedValue;
 
                 // Call the original onChange

@@ -53,6 +53,7 @@ export interface FieldConfig {
     // Validation
     validate?: (values: Record<string, any>, ctx: z.RefinementCtx) => void;
     normalize?: (value: unknown) => unknown;
+    capitalize?: boolean;
     // CSS class for the container
     className?: string;
     // Additional attributes
@@ -98,6 +99,10 @@ export class FieldClass<T = any> {
 
     get isRequired() {
         return this._config.isRequired || false;
+    }
+
+    get capitalize() {
+        return this._config.capitalize || false;
     }
 
     get min() {

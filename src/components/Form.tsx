@@ -15,6 +15,7 @@ interface FormProps {
     translations?: Record<string, string>; // Optional translations for the form
     className?: string; // Optional class name for the form
     isCard?: boolean; // Optional flag to indicate if the form should be displayed as a card
+    allowPristineSubmit?: boolean; // Whether valid default values can be submitted without changes
 }
 
 export default function Form({
@@ -25,6 +26,7 @@ export default function Form({
     translations = {},
     className = '',
     isCard = true,
+    allowPristineSubmit = false,
 }: FormProps): JSX.Element {
     // Initialize react-hook-form with zod resolver
     const {
@@ -153,7 +155,7 @@ export default function Form({
                 <button
                     type='submit'
                     className='btn btn-primary'
-                    disabled={!isDirty || !isValid || isSubmitting}
+                    disabled={(!allowPristineSubmit && !isDirty) || !isValid || isSubmitting}
                 >
                     {isSubmitting ? tr.submitting : tr.submit}
                 </button>

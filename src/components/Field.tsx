@@ -66,6 +66,7 @@ export default function Field({
         case 'creatable-select':
         case 'select':
             baseProps.className = 'form-control';
+            baseProps.isDisabled = field.isDisabled;
             baseProps.options = field.options;
             baseProps.value = field.isMultiple ?
                 (Array.isArray(controllerField.value) ? controllerField.value : []) :

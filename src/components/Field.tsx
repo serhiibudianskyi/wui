@@ -89,7 +89,54 @@ export default function Field({
                 control: (base: any) => ({
                     ...base,
                     border: 'none',
-                    boxShadow: 'none'
+                    backgroundColor: 'transparent',
+                    boxShadow: 'none',
+                    '&:hover': {
+                        border: 'none'
+                    }
+                }),
+                input: (base: any) => ({
+                    ...base,
+                    color: 'var(--bs-body-color)'
+                }),
+                singleValue: (base: any) => ({
+                    ...base,
+                    color: 'var(--bs-body-color)'
+                }),
+                placeholder: (base: any) => ({
+                    ...base,
+                    color: 'var(--bs-secondary-color)'
+                }),
+                menu: (base: any) => ({
+                    ...base,
+                    backgroundColor: 'var(--bs-body-bg)',
+                    color: 'var(--bs-body-color)',
+                    zIndex: 1060
+                }),
+                option: (base: any, state: any) => ({
+                    ...base,
+                    backgroundColor: state.isSelected || state.isFocused
+                        ? 'var(--bs-secondary-bg)'
+                        : 'transparent',
+                    color: 'var(--bs-body-color)',
+                    cursor: 'pointer',
+                    ':active': {
+                        backgroundColor: 'var(--bs-secondary-bg)'
+                    }
+                }),
+                dropdownIndicator: (base: any) => ({
+                    ...base,
+                    color: 'var(--bs-secondary-color)',
+                    '&:hover': { color: 'var(--bs-body-color)' }
+                }),
+                clearIndicator: (base: any) => ({
+                    ...base,
+                    color: 'var(--bs-secondary-color)',
+                    '&:hover': { color: 'var(--bs-body-color)' }
+                }),
+                indicatorSeparator: (base: any) => ({
+                    ...base,
+                    backgroundColor: 'var(--bs-border-color)'
                 })
             };
             break;

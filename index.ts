@@ -11,3 +11,5 @@ export * from './src/types/Form';
 export { default as Field } from './src/components/Field';
 export { default as FileField } from './src/components/FileField';
 export { default as Form } from './src/components/Form';
+export { default as Modal } from './src/components/Modal';
+export type { ModalProps } from './src/components/Modal';

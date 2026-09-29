@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, type UseFormSetValue } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import type { FormClass, Section } from '../types/Form';
@@ -16,6 +16,7 @@ interface FormProps {
     className?: string; // Optional class name for the form
     isCard?: boolean; // Optional flag to indicate if the form should be displayed as a card
     allowPristineSubmit?: boolean; // Whether valid default values can be submitted without changes
+    onValuesChange?: (values: Record<string, any>, name: string | undefined, setValue: UseFormSetValue<any>) => void;
 }
 
 export default function Form({
@@ -27,6 +28,7 @@ export default function Form({
     className = '',
     isCard = true,
     allowPristineSubmit = false,
+    onValuesChange,
 }: FormProps): JSX.Element {
     // Initialize react-hook-form with zod resolver
     const {
@@ -36,6 +38,8 @@ export default function Form({
         trigger,
         clearErrors,
         control,
+        watch,
+        setValue,
         formState: {
             touchedFields,
             errors,
@@ -48,6 +52,18 @@ export default function Form({
         mode: 'onChange',
         defaultValues: form.defaultValues
     });
+
+    useEffect(() => {
+        if (!onValuesChange) {
+            return;
+        }
+
+        const subscription = watch((values, info) => {
+            onValuesChange(values as Record<string, any>, info.name, setValue);
+        });
+
+        return () => subscription.unsubscribe();
+    }, [onValuesChange, setValue, watch]);
 
     const hasMounted = useRef(false);
 
@@ -69,7 +85,7 @@ export default function Form({
             await onSubmit(data);
             reset(data);
         } catch (error: any) {
-            toast.error(tr.failed);
+            toast.error(error instanceof Error && error.message ? error.message : tr.failed);
         }
     };
 

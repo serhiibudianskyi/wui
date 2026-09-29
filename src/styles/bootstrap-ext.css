@@ -11,3 +11,19 @@
     border-color: var(--bs-form-valid-border-color);
     box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.25);
 }
+
+.checkbox-group.is-invalid {
+    border-color: var(--bs-form-invalid-border-color) !important;
+}
+
+.checkbox-group.is-invalid:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.25);
+}
+
+.checkbox-group.is-valid {
+    border-color: var(--bs-form-valid-border-color) !important;
+}
+
+.checkbox-group.is-valid:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.25);
+}

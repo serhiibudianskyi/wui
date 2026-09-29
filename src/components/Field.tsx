@@ -158,6 +158,8 @@ export default function Field({
             baseProps.className = 'form-check-input';
             containerClasses.push('mx-2', 'form-check', 'form-switch');
             break;
+        case 'checkbox-group':
+            break;
         case 'number':
             baseProps.step = field.step;
         // fallthrough
@@ -272,6 +274,50 @@ export default function Field({
             case 'password':
             default:
                 return <input {...baseProps} />;
+            case 'checkbox-group':
+                return (
+                    <div
+                        className={`checkbox-group position-relative d-flex flex-column gap-2 border rounded p-2 overflow-auto ${field.className} ${fieldState.error
+                            ? 'is-invalid'
+                            : fieldState.isTouched || fieldState.isDirty
+                                ? 'is-valid'
+                                : ''}`}
+                        aria-invalid={fieldState.error ? 'true' : 'false'}
+                    >
+                        {field.options.map((option) => {
+                            const selectedValues = Array.isArray(controllerField.value)
+                                ? controllerField.value as string[]
+                                : [];
+
+                            return (
+                                <div className="form-check" key={option.value}>
+                                    <input
+                                        type="checkbox"
+                                        className="form-check-input"
+                                        id={`${field.name}_${option.value}`}
+                                        checked={selectedValues.includes(option.value)}
+                                        disabled={field.isDisabled}
+                                        onChange={(event) => {
+                                            const nextValues = event.target.checked
+                                                ? [...selectedValues, option.value]
+                                                : selectedValues.filter((value) => value !== option.value);
+                                            controllerField.onChange(nextValues);
+                                        }}
+                                    />
+                                    <label className="form-check-label" htmlFor={`${field.name}_${option.value}`}>
+                                        {option.label}
+                                    </label>
+                                </div>
+                            );
+                        })}
+                        {fieldState.error && (
+                            <i
+                                className="bi bi-exclamation-circle text-danger position-absolute top-0 end-0 m-2"
+                                aria-hidden="true"
+                            />
+                        )}
+                    </div>
+                );
         }
     };
 
@@ -296,7 +342,9 @@ export default function Field({
     }
 
     // Combine container classes into a single string
-    containerClasses.push(field.className); // Add field-specific className in the end to override defaults
+    if (field.type !== 'checkbox-group') {
+        containerClasses.push(field.className); // Add field-specific className in the end to override defaults
+    }
     const containerClassNames = containerClasses.filter(Boolean).join(' ');
     return (
         <div className={containerClassNames}>

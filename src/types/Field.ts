@@ -7,6 +7,7 @@ export type FieldType =
     | 'password'
     | 'number'
     | 'checkbox'
+    | 'checkbox-group'
     | 'date'
     | 'datetime-local'
     | 'time'
@@ -143,6 +144,7 @@ export class FieldClass<T = any> {
         return this._config.className || '';
     }
 
+
     get attrs() {
         return this._config.attrs || {};
     }
@@ -168,6 +170,8 @@ export class FieldClass<T = any> {
                 return (this._config.min ?? 0) as T;
             case 'checkbox':
                 return false as T;
+            case 'checkbox-group':
+                return [] as T;
             case 'date':
             case 'datetime-local':
                 return new Date() as T;
@@ -349,6 +353,23 @@ export class FieldFactory {
         };
 
         return new FieldClass(fieldConfig, this.createCheckboxSchema(fieldConfig));
+    }
+
+    static checkboxGroup(name: string, label: string, options: Option[], config: Partial<FieldConfig> = {}): FieldClass<string[]> {
+        const fieldConfig = {
+            type: 'checkbox-group' as FieldType,
+            name,
+            label,
+            options,
+            ...config
+        };
+        let schema = z.array(z.string());
+
+        if (config.isRequired) {
+            schema = schema.nonempty({ message: `{{label}} is required` });
+        }
+
+        return new FieldClass(fieldConfig, schema);
     }
 
     // Create a Zod schema for date fields

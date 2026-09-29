@@ -9,6 +9,9 @@ import fieldTr from '../i18n/field';
 
 import '../styles/bootstrap-ext.css';
 
+const capitalizeWords = (value: string): string =>
+    value.replace(/(^|[^\p{L}\p{N}])(\p{L})/gu, (_, separator, letter) => separator + letter.toLocaleUpperCase());
+
 interface FieldProps {
     field: FieldClass; // The field configuration
     register: UseFormRegisterReturn; // Registration object from react-hook-form
@@ -71,13 +74,24 @@ export default function Field({
             baseProps.value = field.isMultiple ?
                 (Array.isArray(controllerField.value) ? controllerField.value : []) :
                 (controllerField.value ?? null);
+            baseProps.onInputChange = (inputValue: string, actionMeta: { action: string }) =>
+                field.capitalize && actionMeta.action === 'input-change'
+                    ? capitalizeWords(inputValue)
+                    : inputValue;
             baseProps.onChange = (option: Option | Option[] | null) => {
+                const normalizeOption = (selectedOption: Option): Option => field.capitalize
+                    ? {
+                        ...selectedOption,
+                        label: capitalizeWords(selectedOption.label),
+                        value: capitalizeWords(selectedOption.value),
+                    }
+                    : selectedOption;
                 let value;
 
                 if (field.isMultiple) {
-                    value = option ? (option as Option[]) : [];
+                    value = option ? (option as Option[]).map(normalizeOption) : [];
                 } else {
-                    value = option ? (option as Option) : null;
+                    value = option ? normalizeOption(option as Option) : null;
                 }
 
                 controllerField.onChange(value);
@@ -87,22 +101,23 @@ export default function Field({
                     ...base,
                     padding: 0
                 }),
-                control: (base: any) => ({
+                control: (base: any, state: any) => ({
                     ...base,
                     border: 'none',
-                    backgroundColor: 'transparent',
+                    backgroundColor: state.isDisabled ? 'var(--bs-secondary-bg)' : 'transparent',
                     boxShadow: 'none',
+                    cursor: state.isDisabled ? 'not-allowed' : 'default',
                     '&:hover': {
                         border: 'none'
                     }
                 }),
-                input: (base: any) => ({
+                input: (base: any, state: any) => ({
                     ...base,
-                    color: 'var(--bs-body-color)'
+                    color: state.isDisabled ? 'var(--bs-secondary-color)' : 'var(--bs-body-color)'
                 }),
-                singleValue: (base: any) => ({
+                singleValue: (base: any, state: any) => ({
                     ...base,
-                    color: 'var(--bs-body-color)'
+                    color: state.isDisabled ? 'var(--bs-secondary-color)' : 'var(--bs-body-color)'
                 }),
                 placeholder: (base: any) => ({
                     ...base,
@@ -179,10 +194,7 @@ export default function Field({
                 // Apply normalization
                 let normalizedValue = field.getNormalizedValue(event.target.value);
                 if (field.capitalize) {
-                    normalizedValue = String(normalizedValue).replace(
-                        /(^|[^\p{L}\p{N}])(\p{L})/gu,
-                        (_, separator, letter) => separator + letter.toLocaleUpperCase(),
-                    ) as typeof normalizedValue;
+                    normalizedValue = capitalizeWords(String(normalizedValue)) as typeof normalizedValue;
                 }
                 event.target.value = normalizedValue;
 
@@ -193,9 +205,9 @@ export default function Field({
     }
 
     // Add validation classes
-    if (fieldState.error) {
+    if (!field.isDisabled && fieldState.error) {
         baseProps.className += ' is-invalid';
-    } else if (!baseProps.className.includes('form-check-input') && (fieldState.isTouched || fieldState.isDirty)) {
+    } else if (!field.isDisabled && !baseProps.className.includes('form-check-input') && (fieldState.isTouched || fieldState.isDirty)) {
         baseProps.className += ' is-valid';
     }
 

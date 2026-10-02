@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { filesize } from 'filesize';
 import fileFieldTr from '../i18n/fileField';
 
-import '../style/uploady-ext.css';
+import '../styles/uploady-ext.css';
 
 interface FileFieldProps {
     value?: any;

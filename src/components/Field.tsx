@@ -7,7 +7,7 @@ import AsyncCreatableSelect from 'react-select/async-creatable';
 import FileField from './FileField';
 import fieldTr from '../i18n/field';
 
-import '../style/bootstrap-ext.css';
+import '../styles/bootstrap-ext.css';
 
 const capitalizeWords = (value: string): string =>
     value.replace(/(^|[^\p{L}\p{N}])(\p{L})/gu, (_, separator, letter) => separator + letter.toLocaleUpperCase());

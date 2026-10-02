@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import { useForm, type UseFormSetValue } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
-import type { FormClass, Section } from '../types/Form';
-import type { FieldClass } from '../types/Field';
+import type { FormClass, Section } from '../type/Form';
+import type { FieldClass } from '../type/Field';
 import Field from './Field';
 import formTr from '../i18n/form';
 

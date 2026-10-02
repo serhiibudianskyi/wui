@@ -1,5 +1,5 @@
 import { UseFormRegisterReturn, Control, useController } from 'react-hook-form';
-import type { FieldClass, Option } from '../types/Field';
+import type { FieldClass, Option } from '../type/Field';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';

@@ -1,5 +1,5 @@
 import { UseFormRegisterReturn, Control, useController } from 'react-hook-form';
-import type { FieldClass, Option } from '../type/Field';
+import type { FieldClass, Option } from '../types/Field';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
@@ -7,7 +7,7 @@ import AsyncCreatableSelect from 'react-select/async-creatable';
 import FileField from './FileField';
 import fieldTr from '../i18n/field';
 
-import '../styles/bootstrap-ext.css';
+import '../style/bootstrap-ext.css';
 
 const capitalizeWords = (value: string): string =>
     value.replace(/(^|[^\p{L}\p{N}])(\p{L})/gu, (_, separator, letter) => separator + letter.toLocaleUpperCase());

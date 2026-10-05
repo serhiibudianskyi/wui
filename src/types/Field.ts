@@ -25,6 +25,10 @@ export interface Option {
     value: string;
 }
 
+export interface CheckboxOption extends Option {
+    children?: CheckboxOption[];
+}
+
 // Configuration interface for a form field
 export interface FieldConfig {
     // Basic properties
@@ -42,6 +46,7 @@ export interface FieldConfig {
     step?: number;
     // Select/radio properties
     options?: Option[];
+    checkboxOptions?: CheckboxOption[];
     // Multiple selection
     isMultiple?: boolean;
     // File properties
@@ -123,6 +128,10 @@ export class FieldClass<T = any> {
 
     get options() {
         return this._config.options || [];
+    }
+
+    get checkboxOptions(): CheckboxOption[] {
+        return this._config.checkboxOptions ?? this._config.options ?? [];
     }
 
     get isMultiple() {
@@ -360,12 +369,13 @@ export class FieldFactory {
         return new FieldClass(fieldConfig, this.createCheckboxSchema(fieldConfig));
     }
 
-    static checkboxGroup(name: string, label: string, options: Option[], config: Partial<FieldConfig> = {}): FieldClass<string[]> {
+    static checkboxGroup(name: string, label: string, options: CheckboxOption[], config: Partial<FieldConfig> = {}): FieldClass<string[]> {
         const fieldConfig = {
             type: 'checkbox-group' as FieldType,
             name,
             label,
             options,
+            checkboxOptions: options,
             ...config
         };
         let schema = z.array(z.string());

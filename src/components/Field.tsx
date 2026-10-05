@@ -5,6 +5,7 @@ import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import FileField from './FileField';
+import CheckboxGroup from './CheckboxGroup';
 import fieldTr from '../i18n/field';
 
 import '../styles/bootstrap-ext.css';
@@ -302,33 +303,15 @@ export default function Field({
                                 ? 'is-valid'
                                 : ''}`}
                         aria-invalid={fieldState.error ? 'true' : 'false'}
+                        style={field.attrs.style}
                     >
-                        {field.options.map((option) => {
-                            const selectedValues = Array.isArray(controllerField.value)
-                                ? controllerField.value as string[]
-                                : [];
-
-                            return (
-                                <div className="form-check" key={option.value}>
-                                    <input
-                                        type="checkbox"
-                                        className="form-check-input"
-                                        id={`${field.name}_${option.value}`}
-                                        checked={selectedValues.includes(option.value)}
-                                        disabled={field.isDisabled}
-                                        onChange={(event) => {
-                                            const nextValues = event.target.checked
-                                                ? [...selectedValues, option.value]
-                                                : selectedValues.filter((value) => value !== option.value);
-                                            controllerField.onChange(nextValues);
-                                        }}
-                                    />
-                                    <label className="form-check-label" htmlFor={`${field.name}_${option.value}`}>
-                                        {option.label}
-                                    </label>
-                                </div>
-                            );
-                        })}
+                        <CheckboxGroup
+                            options={field.checkboxOptions}
+                            value={Array.isArray(controllerField.value) ? controllerField.value : []}
+                            disabled={field.isDisabled || field.isReadOnly}
+                            onChange={controllerField.onChange}
+                            onBlur={controllerField.onBlur}
+                        />
                         {fieldState.error && (
                             <i
                                 className="bi bi-exclamation-circle text-danger position-absolute top-0 end-0 m-2"

@@ -9,6 +9,7 @@ export * from './src/types/Form';
 
 // Component exports
 export { default as Field } from './src/components/Field';
+export { default as CheckboxGroup } from './src/components/CheckboxGroup';
 export { default as FileField } from './src/components/FileField';
 export { default as Form } from './src/components/Form';
 export { default as Modal } from './src/components/Modal';

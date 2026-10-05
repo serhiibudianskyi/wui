@@ -167,7 +167,7 @@ export default function Form({
     // Render form buttons
     const renderButtons = () => {
         return (
-            <div className='my-2'>
+            <div className='my-2 gap-2 d-flex'>
                 <button
                     type='submit'
                     className='btn btn-primary'

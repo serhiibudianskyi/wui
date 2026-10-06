@@ -40,6 +40,7 @@ export default function Form({
         control,
         watch,
         setValue,
+        getValues,
         formState: {
             touchedFields,
             errors,
@@ -58,12 +59,20 @@ export default function Form({
             return;
         }
 
-        const subscription = watch((values, info) => {
-            onValuesChange(values as Record<string, any>, info.name, setValue);
+        let active = true;
+        const subscription = watch((_, info) => {
+            queueMicrotask(() => {
+                if (active) {
+                    onValuesChange(getValues() as Record<string, any>, info.name, setValue);
+                }
+            });
         });
 
-        return () => subscription.unsubscribe();
-    }, [onValuesChange, setValue, watch]);
+        return () => {
+            active = false;
+            subscription.unsubscribe();
+        };
+    }, [onValuesChange, getValues, setValue, watch]);
 
     const hasMounted = useRef(false);
 
@@ -83,7 +92,7 @@ export default function Form({
     const handleFormSubmit = async (data: any): Promise<void> => {
         try {
             await onSubmit(data);
-            reset(data);
+            reset(data, { keepValues: true });
         } catch (error: any) {
             toast.error(error instanceof Error && error.message ? error.message : tr.failed);
         }

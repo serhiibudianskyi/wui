@@ -588,7 +588,7 @@ export class FieldFactory {
 
             // Apply required validation
             if (config.isRequired) {
-                schema = schema.nonempty({ message: `${config.label} is required` });
+                schema = schema.nonempty({ message: `{{label}} is required` });
             }
 
             return schema.default([]);
@@ -603,7 +603,7 @@ export class FieldFactory {
             if (config.isRequired) {
                 schema = schema.refine(
                     (val) => val !== null,
-                    { message: `${config.label} is required` }
+                    { message: `{{label}} is required` }
                 );
             }
 

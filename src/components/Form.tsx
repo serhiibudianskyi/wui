@@ -53,6 +53,8 @@ export default function Form({
         mode: 'onChange',
         defaultValues: form.defaultValues
     });
+    const fields = form.sections.flatMap(section => Object.values(section.fields));
+    const isReadOnlyForm = fields.length > 0 && fields.every(field => field.isReadOnly || field.isDisabled);
 
     useEffect(() => {
         if (!onValuesChange) {
@@ -90,6 +92,10 @@ export default function Form({
 
     // Handle form submission
     const handleFormSubmit = async (data: any): Promise<void> => {
+        if (isReadOnlyForm) {
+            return;
+        }
+
         try {
             await onSubmit(data);
             reset(data, { keepValues: true });
@@ -214,10 +220,11 @@ export default function Form({
                     {/* Render form fields */}
                     {form.sections.map((section, index) => renderSection(section, index))}
                 </div>
-                <div className={isCard ? 'card-footer' : ''}>
-                    {/* Render buttons */}
-                    {renderButtons()}
-                </div>
+                {!isReadOnlyForm && (
+                    <div className={isCard ? 'card-footer' : ''}>
+                        {renderButtons()}
+                    </div>
+                )}
             </div>
         </form>
     );

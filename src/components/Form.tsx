@@ -26,7 +26,7 @@ export default function Form({
     language = 'en',
     translations = {},
     className = '',
-    isCard = true,
+    isCard = false,
     allowPristineSubmit = false,
     onValuesChange,
 }: FormProps): JSX.Element {

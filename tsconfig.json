@@ -13,7 +13,7 @@
         "jsx": "react-jsx",
         "composite": true,
         "strict": true,
-        "moduleResolution": "node"
+        "moduleResolution": "bundler"
     },
     "include": [
         "src/**/*",

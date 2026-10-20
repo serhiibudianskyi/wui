@@ -19,7 +19,15 @@ export class FormClass {
 
 	// Alternative constructor to initialize the form with sections
 	constructor(sections: Section[]) {
-		this._sections = sections;
+		this._sections = sections.map((section) => ({
+			...section,
+			fields: Object.fromEntries(
+				Object.entries(section.fields).map(([name, field]) => [
+					name,
+					field.withName(name),
+				]),
+			),
+		}));
 		this._fields = this._extractFieldsFromSections();
 		this._buildDefaultValues();
 	}

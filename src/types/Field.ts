@@ -28,7 +28,6 @@ export interface Option {
 export interface FieldConfig {
     // Basic properties
     type: FieldType;
-    name: string;
     label: string;
     placeholder?: string;
     isReadOnly?: boolean;
@@ -60,6 +59,7 @@ export interface FieldConfig {
 
 // Field class representing a form field
 export class FieldClass<T = any> {
+    private _name = '';
     // Configuration for the field
     protected readonly _config: FieldConfig = {} as FieldConfig;
     // Zod schema for the field
@@ -71,12 +71,18 @@ export class FieldClass<T = any> {
         this.schema = schema;
     }
 
+    withName(name: string): FieldClass<T> {
+        const field = new FieldClass(this._config, this.schema);
+        field._name = name;
+        return field;
+    }
+
     get type() {
         return this._config.type;
     }
 
     get name() {
-        return this._config.name;
+        return this._name;
     }
 
     get label() {
@@ -210,10 +216,9 @@ export class FieldFactory {
     }
 
     // Create a text field with the given configuration
-    static text(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<string> {
+    static text(label: string, config: Partial<FieldConfig> = {}): FieldClass<string> {
         const fieldConfig = {
             type: 'text' as FieldType,
-            name,
             label,
             ...config
         };
@@ -225,7 +230,6 @@ export class FieldFactory {
     static email(config: Partial<FieldConfig>): FieldClass<string> {
         const fieldConfig = {
             type: 'email' as FieldType,
-            name: config.name || 'email',
             label: config.label || 'Email',
             ...config
         };
@@ -237,7 +241,6 @@ export class FieldFactory {
     static password(config: Partial<FieldConfig>): FieldClass<string> {
         const fieldConfig = {
             type: 'password' as FieldType,
-            name: config.name || 'password',
             label: config.label || 'Password',
             ...config
         };
@@ -246,10 +249,9 @@ export class FieldFactory {
     }
 
     // Create a textarea field with the given configuration
-    static textarea(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<string> {
+    static textarea(label: string, config: Partial<FieldConfig> = {}): FieldClass<string> {
         const fieldConfig = {
             type: 'textarea' as FieldType,
-            name,
             label,
             ...config
         };
@@ -305,10 +307,9 @@ export class FieldFactory {
     }
 
     // Create a number field with the given configuration
-    static number(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<number | undefined> {
+    static number(label: string, config: Partial<FieldConfig> = {}): FieldClass<number | undefined> {
         const fieldConfig = {
             type: 'number' as FieldType,
-            name,
             label,
             ...config
         };
@@ -332,10 +333,9 @@ export class FieldFactory {
     }
 
     // Create a checkbox field with the given configuration
-    static checkbox(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<boolean> {
+    static checkbox(label: string, config: Partial<FieldConfig> = {}): FieldClass<boolean> {
         const fieldConfig = {
             type: 'checkbox' as FieldType,
-            name,
             label,
             ...config
         };
@@ -392,10 +392,9 @@ export class FieldFactory {
     }
 
     // Create a date field with the given configuration
-    static date(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<Date | undefined> {
+    static date(label: string, config: Partial<FieldConfig> = {}): FieldClass<Date | undefined> {
         const fieldConfig = {
             type: 'date' as FieldType,
-            name,
             label,
             ...config
         };
@@ -452,10 +451,9 @@ export class FieldFactory {
     }
 
     // Create a datetime-local field with the given configuration
-    static datetimeLocal(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<Date | undefined> {
+    static datetimeLocal(label: string, config: Partial<FieldConfig> = {}): FieldClass<Date | undefined> {
         const fieldConfig = {
             type: 'datetime-local' as FieldType,
-            name,
             label,
             ...config
         };
@@ -509,10 +507,9 @@ export class FieldFactory {
     }
 
     // Create a time field with the given configuration
-    static time(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<string | undefined> {
+    static time(label: string, config: Partial<FieldConfig> = {}): FieldClass<string | undefined> {
         const fieldConfig = {
             type: 'time' as FieldType,
-            name,
             label,
             ...config
         };
@@ -521,10 +518,9 @@ export class FieldFactory {
     }
 
     // Create a radio field with the given configuration
-    static radio(name: string, label: string, options: Option[], config: Partial<FieldConfig> = {}): FieldClass<string> {
+    static radio(label: string, options: Option[], config: Partial<FieldConfig> = {}): FieldClass<string> {
         const fieldConfig = {
             type: 'radio' as FieldType,
-            name,
             label,
             options,
             ...config
@@ -568,10 +564,9 @@ export class FieldFactory {
     }
 
     // Create a select field with the given configuration
-    static select(name: string, label: string, options: Option[], config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
+    static select(label: string, options: Option[], config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
         const fieldConfig = {
             type: 'select' as FieldType,
-            name,
             label,
             options,
             ...config
@@ -581,10 +576,9 @@ export class FieldFactory {
     }
 
     // Create an async-select field with the given configuration
-    static asyncSelect(name: string, label: string, loadOptions: (search: string) => Promise<Option[]>, config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
+    static asyncSelect(label: string, loadOptions: (search: string) => Promise<Option[]>, config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
         const fieldConfig = {
             type: 'async-select' as FieldType,
-            name,
             label,
             loadOptions,
             ...config
@@ -594,10 +588,9 @@ export class FieldFactory {
     }
 
     // Create a creatable-select field with the given configuration
-    static creatableSelect(name: string, label: string, options: Option[], config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
+    static creatableSelect(label: string, options: Option[], config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
         const fieldConfig = {
             type: 'creatable-select' as FieldType,
-            name,
             label,
             options,
             ...config
@@ -607,10 +600,9 @@ export class FieldFactory {
     }
 
     // Create an async-creatable-select field with the given configuration
-    static asyncCreatableSelect(name: string, label: string, loadOptions: (search: string) => Promise<Option[]>, config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
+    static asyncCreatableSelect(label: string, loadOptions: (search: string) => Promise<Option[]>, config: Partial<FieldConfig> = {}): FieldClass<Option | Option[] | null> {
         const fieldConfig = {
             type: 'async-creatable-select' as FieldType,
-            name,
             label,
             loadOptions,
             ...config
@@ -654,10 +646,9 @@ export class FieldFactory {
     }
 
     // Create a file field with the given configuration
-    static file(name: string, label: string, config: Partial<FieldConfig> = {}): FieldClass<string | string[] | null> {
+    static file(label: string, config: Partial<FieldConfig> = {}): FieldClass<string | string[] | null> {
         const fieldConfig = {
             type: 'file' as FieldType,
-            name,
             label,
             ...config
         };

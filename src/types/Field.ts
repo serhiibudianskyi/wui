@@ -196,7 +196,7 @@ export class FieldFactory {
 
         // Apply required validation if specified
         if (config.isRequired) {
-            schema = schema.nonempty({ message: `${config.label} is required` });
+            schema = schema.nonempty({ message: '{{label}} is required' });
         }
 
         return schema;
@@ -274,7 +274,7 @@ export class FieldFactory {
         if (config.isRequired) {
             schema = schema.refine(
                 (val) => val !== undefined, {
-                message: `${config.label} is required`
+                message: '{{label}} is required'
             })
         }
 
@@ -288,7 +288,7 @@ export class FieldFactory {
                     }
                     return true;
                 }, {
-                message: `${config.label} must be at least ${config.min}`
+                message: '{{label}} must be at least {{min}}'
             })
             .refine(
                 (val) => {
@@ -298,7 +298,7 @@ export class FieldFactory {
                     }
                     return true;
                 }, {
-                message: `${config.label} must be at most ${config.max}`
+                message: '{{label}} must be at most {{max}}'
             });
 
         return schema;
@@ -324,7 +324,7 @@ export class FieldFactory {
         if (config.isRequired) {
             schema = schema.refine(
                 (val) => val === true, {
-                message: `${config.label} must be checked`
+                message: '{{label}} must be checked'
             });
         }
 
@@ -360,7 +360,7 @@ export class FieldFactory {
         if (config.isRequired) {
             schema = schema.refine(
                 (val) => val !== undefined, {
-                message: `${config.label} is required`
+                message: '{{label}} is required'
             });
         }
 
@@ -374,7 +374,7 @@ export class FieldFactory {
                     }
                     return true;
                 }, {
-                message: `${config.label} must be on or after ${config.min ? new Date(config.min).toLocaleDateString() : ''}`
+                message: '{{label}} must be on or after {{min}}'
             })
             .refine(
                 (val) => {
@@ -384,7 +384,7 @@ export class FieldFactory {
                     }
                     return true;
                 }, {
-                message: `${config.label} must be on or before ${config.max ? new Date(config.max).toLocaleDateString() : ''}`
+                message: '{{label}} must be on or before {{max}}'
             }
             );
 
@@ -420,7 +420,7 @@ export class FieldFactory {
         if (config.isRequired) {
             schema = schema.refine(
                 (val) => val !== undefined, {
-                message: `${config.label} is required`
+                message: '{{label}} is required'
             });
         }
 
@@ -434,7 +434,7 @@ export class FieldFactory {
                     }
                     return true;
                 }, {
-                message: `${config.label} must be on or after ${config.min ? new Date(config.min).toLocaleString() : ''}`
+                message: '{{label}} must be on or after {{min}}'
             })
             .refine(
                 (val) => {
@@ -444,7 +444,7 @@ export class FieldFactory {
                     }
                     return true;
                 }, {
-                message: `${config.label} must be on or before ${config.max ? new Date(config.max).toLocaleString() : ''}`
+                message: '{{label}} must be on or before {{max}}'
             }
             );
 
@@ -471,14 +471,14 @@ export class FieldFactory {
         if (config.isRequired) {
             schema = schema.refine(
                 (val) => val !== undefined && val !== '', {
-                message: `${config.label} is required`
+                message: '{{label}} is required'
             });
         }
 
         // Validate time format (HH:MM)
         schema = schema.refine(
             (val) => !val || /^([01]\d|2[0-3]):([0-5]\d)$/.test(val), {
-            message: `${config.label} must be a valid time in HH:MM format`
+            message: '{{label}} must be a valid time in HH:MM format'
         });
 
         // Minmax time validation
@@ -491,7 +491,7 @@ export class FieldFactory {
                     }
                     return true;
                 }, {
-                message: `${config.label} must be at or after ${config.min}`
+                message: '{{label}} must be at or after {{min}}'
             })
             .refine(
                 (val) => {
@@ -501,7 +501,7 @@ export class FieldFactory {
                     }
                     return true;
                 }, {
-                message: `${config.label} must be at or before ${config.max}`
+                message: '{{label}} must be at or before {{max}}'
             }
             );
 
@@ -544,7 +544,7 @@ export class FieldFactory {
 
             // Apply required validation
             if (config.isRequired) {
-                schema = schema.nonempty({ message: `${config.label} is required` });
+                schema = schema.nonempty({ message: '{{label}} is required' });
             }
 
             return schema.default([]);
@@ -559,7 +559,7 @@ export class FieldFactory {
             if (config.isRequired) {
                 schema = schema.refine(
                     (val) => val !== null,
-                    { message: `${config.label} is required` }
+                    { message: '{{label}} is required' }
                 );
             }
 
@@ -626,13 +626,13 @@ export class FieldFactory {
 
             // Apply required validation
             if (config.isRequired) {
-                schema = schema.nonempty({ message: `${config.label} is required` });
+                schema = schema.nonempty({ message: '{{label}} is required' });
             }
 
             // Apply maxFiles validation
             if (config.maxFiles) {
                 schema = schema.max(config.maxFiles, {
-                    message: `${config.label} cannot have more than ${config.maxFiles} file${config.maxFiles > 1 ? 's' : ''}`
+                    message: '{{label}} cannot have more than {{maxFiles}} files'
                 });
             }
 
@@ -645,7 +645,7 @@ export class FieldFactory {
             if (config.isRequired) {
                 schema = schema.refine(
                     (val) => val !== null,
-                    { message: `${config.label} is required` }
+                    { message: '{{label}} is required' }
                 );
             }
 

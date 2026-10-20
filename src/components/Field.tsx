@@ -6,18 +6,29 @@ import CreatableSelect from 'react-select/creatable';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import FileField from './FileField';
 import '../styles/bootstrap-ext.css';
+import fieldTr, { type FormLanguage } from '../i18n/field';
 
 interface FieldProps {
+    language?: FormLanguage;
+    isDirty?: boolean;
     field: FieldClass; // The field configuration
     register: UseFormRegisterReturn; // Registration object from react-hook-form
     control: Control<any>; // Control object from react-hook-form
 }
 
 export default function Field({
+    language = 'en',
+    isDirty,
     field,
     register,
     control,
 }: FieldProps): JSX.Element {
+    const tr = fieldTr[language] || fieldTr.en;
+    const label = field.type === 'email' && field.label === 'Email'
+        ? tr.email
+        : field.type === 'password' && field.label === 'Password'
+            ? tr.password
+            : field.label;
     const containerClasses: string[] = [];
 
     // Get field state from react-hook-form
@@ -124,7 +135,7 @@ export default function Field({
     // Add validation classes
     if (fieldState.error) {
         baseProps.className += ' is-invalid';
-    } else if (!baseProps.className.includes('form-check-input') && (fieldState.isTouched || fieldState.isDirty)) {
+    } else if (!baseProps.className.includes('form-check-input') && (fieldState.isTouched || (isDirty ?? fieldState.isDirty))) {
         baseProps.className += ' is-valid';
     }
 
@@ -134,10 +145,10 @@ export default function Field({
             htmlFor={field.name}
             className='form-label'
         >
-            {field.label} {field.isRequired &&
+            {label} {field.isRequired &&
                 <span
                     className='text-danger'
-                    title='Field is required'
+                    title={tr.required}
                 >
                     *
                 </span>}
@@ -218,9 +229,30 @@ export default function Field({
             return null;
         }
 
+        const message = fieldState.error.message || '';
+        const template = Object.prototype.hasOwnProperty.call(tr, message)
+            ? tr[message as keyof typeof tr]
+            : message;
+        const formatLimit = (value: number | string | undefined): string => {
+            if (typeof value === 'string' && (field.type === 'date' || field.type === 'datetime-local')) {
+                return field.type === 'date'
+                    ? new Date(value).toLocaleDateString(language)
+                    : new Date(value).toLocaleString(language);
+            }
+            return value?.toString() ?? '';
+        };
+        const pairs: Record<string, string> = {
+            label,
+            min: formatLimit(field.min),
+            max: formatLimit(field.max),
+            maxFiles: field.maxFiles.toString(),
+        };
+        const translated = template.replace(/\{\{(\w+)\}\}/g,
+            (placeholder, key: string) => pairs[key] ?? placeholder);
+
         return (
             <div className='invalid-feedback d-block'>
-                {fieldState.error.message}
+                {translated}
             </div>
         );
     }

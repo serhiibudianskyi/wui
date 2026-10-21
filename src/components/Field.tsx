@@ -129,10 +129,24 @@ export default function Field({
 			// Override onChange to include string normalization on real-time input
 			baseProps.onInput = async (event: any) => {
 				// Apply normalization
-				const normalizedValue = field.getNormalizedValue(
-					event.target.value,
-				);
-				event.target.value = normalizedValue;
+				const input = event.target;
+				const value = input.value;
+				const normalizedValue = field.getInputValue(value);
+				if (normalizedValue !== value) {
+					const start = input.selectionStart;
+					const end = input.selectionEnd;
+					const direction = input.selectionDirection;
+					input.value = normalizedValue;
+					if (start !== null && end !== null) {
+						input.setSelectionRange(
+							String(field.getInputValue(value.slice(0, start)))
+								.length,
+							String(field.getInputValue(value.slice(0, end)))
+								.length,
+							direction,
+						);
+					}
+				}
 
 				// Call the original onChange
 				return register.onChange(event);

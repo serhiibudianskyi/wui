@@ -155,6 +155,16 @@ export class FieldClass<T = any> {
 		return this._config.attrs || {};
 	}
 
+	getInputValue(value: unknown): T {
+		const normalized = this.getNormalizedValue(value);
+		if (this._config.trimmed && typeof normalized === "string") {
+			return normalized
+				.replace(/^[^\S\r\n]+/u, "")
+				.replace(/[^\S\r\n]{2,}/gu, " ") as T;
+		}
+		return normalized;
+	}
+
 	// Normalize the input value based on the field's configuration
 	getNormalizedValue(value: unknown): T {
 		const normalized = this._config.normalize
@@ -166,8 +176,10 @@ export class FieldClass<T = any> {
 			(this.type === "text" || this.type === "textarea") &&
 			typeof normalized === "string"
 		) {
-			return normalized.replace(/(^|\s)(\p{L})/gu, (_, space: string, letter: string) =>
-				space + letter.toUpperCase(),
+			return normalized.replace(
+				/(^|\s)(\p{L})/gu,
+				(_, space: string, letter: string) =>
+					space + letter.toUpperCase(),
 			) as T;
 		}
 
@@ -619,7 +631,9 @@ export class FieldFactory {
 						message: "{{label}} is required",
 					});
 				}
-			} else if (!config.options?.some((option) => option.value === value)) {
+			} else if (
+				!config.options?.some((option) => option.value === value)
+			) {
 				ctx.addIssue({
 					code: "custom",
 					message: "{{label}} must be one of the available options",
@@ -641,10 +655,7 @@ export class FieldFactory {
 			...config,
 		};
 
-		return new FieldClass(
-			fieldConfig,
-			this.createRadioSchema(fieldConfig),
-		);
+		return new FieldClass(fieldConfig, this.createRadioSchema(fieldConfig));
 	}
 
 	// Create a Zod schema for select fields

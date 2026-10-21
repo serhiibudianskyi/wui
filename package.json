@@ -7,7 +7,7 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "tsc -p tsconfig.json && copyfiles -u 1 src/styles/** dist/src",
+		"build": "tsc -p tsconfig.json && copyfiles -u 1 src/styles/** dist",
 		"build:watch": "tsc -p tsconfig.json --watch"
 	},
 	"files": [

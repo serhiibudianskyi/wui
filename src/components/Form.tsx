@@ -1,4 +1,5 @@
 import { get, useForm } from "react-hook-form";
+import { useId } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import type { FormClass, Section } from "../types/Form";
@@ -14,7 +15,9 @@ interface FormProps {
 	language?: FormLanguage;
 	translations?: Partial<typeof formTr.en>;
 	onSubmit: (data: any) => Promise<void>; // The submit handler
+	onReset?: () => void;
 	showReset?: boolean; // Whether to show the reset button
+	allowPristineSubmit?: boolean;
 	isCard?: boolean; // Whether the form should be displayed as a card
 }
 
@@ -23,9 +26,12 @@ export default function Form({
 	language = "en",
 	translations = {},
 	onSubmit,
+	onReset,
 	showReset = false,
+	allowPristineSubmit = false,
 	isCard = false,
 }: FormProps): JSX.Element {
+	const id = useId();
 	const tr = { ...(formTr[language] || formTr.en), ...translations };
 	// Initialize react-hook-form with zod resolver
 	const {
@@ -36,7 +42,13 @@ export default function Form({
 		clearErrors,
 		control,
 		watch,
-		formState: { touchedFields, isSubmitting, isValid, defaultValues, dirtyFields },
+		formState: {
+			touchedFields,
+			isSubmitting,
+			isValid,
+			defaultValues,
+			dirtyFields,
+		},
 	} = useForm({
 		resolver: zodResolver(form.schema) as any,
 		mode: "onChange",
@@ -46,7 +58,10 @@ export default function Form({
 	const values = watch();
 	const isFieldDirty = (field: FieldClass): boolean => {
 		const value = get(values, field.name);
-		const defaultValue = get(defaultValues ?? form.defaultValues, field.name);
+		const defaultValue = get(
+			defaultValues ?? form.defaultValues,
+			field.name,
+		);
 
 		if (
 			["text", "textarea", "email", "password"].includes(field.type) &&
@@ -122,6 +137,7 @@ export default function Form({
 		return (
 			<Field
 				key={field.name}
+				id={`${id}-${field.name}`}
 				field={field}
 				language={language}
 				register={fieldRegister}
@@ -164,7 +180,11 @@ export default function Form({
 				<button
 					type="submit"
 					className="btn btn-primary"
-					disabled={!isDirty || !isValid || isSubmitting}
+					disabled={
+						(!allowPristineSubmit && !isDirty) ||
+						!isValid ||
+						isSubmitting
+					}
 				>
 					{isSubmitting ? tr.submitting : tr.submit}
 				</button>
@@ -172,8 +192,14 @@ export default function Form({
 					<button
 						type="button"
 						className="btn btn-secondary"
-						onClick={() => reset()}
-						disabled={!isDirty || isSubmitting}
+						onClick={() => {
+							if (onReset) {
+								onReset();
+							} else {
+								reset();
+							}
+						}}
+						disabled={(!onReset && !isDirty) || isSubmitting}
 					>
 						{tr.reset}
 					</button>

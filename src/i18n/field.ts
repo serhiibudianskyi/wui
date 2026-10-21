@@ -1,54 +1,82 @@
 const en = {
-    email: 'Email',
-    password: 'Password',
-    required: 'Field is required',
-    'Invalid email address': 'Invalid email address',
-    '{{label}} is required': '{{label}} is required',
-    '{{label}} must be at least {{min}}': '{{label}} must be at least {{min}}',
-    '{{label}} must be at most {{max}}': '{{label}} must be at most {{max}}',
-    '{{label}} must be checked': '{{label}} must be checked',
-    '{{label}} must be on or after {{min}}': '{{label}} must be on or after {{min}}',
-    '{{label}} must be on or before {{max}}': '{{label}} must be on or before {{max}}',
-    '{{label}} must be a valid time in HH:MM format': '{{label}} must be a valid time in HH:MM format',
-    '{{label}} must be at or after {{min}}': '{{label}} must be at or after {{min}}',
-    '{{label}} must be at or before {{max}}': '{{label}} must be at or before {{max}}',
-    '{{label}} cannot have more than {{maxFiles}} files': '{{label}} cannot have more than {{maxFiles}} files',
+	email: "Email",
+	password: "Password",
+	required: "Field is required",
+	"Invalid email address": "Invalid email address",
+	"{{label}} is required": "{{label}} is required",
+	"{{label}} must be one of the available options":
+		"{{label}} must be one of the available options",
+	"{{label}} must be at least {{min}}": "{{label}} must be at least {{min}}",
+	"{{label}} must be at most {{max}}": "{{label}} must be at most {{max}}",
+	"{{label}} must be checked": "{{label}} must be checked",
+	"{{label}} must be on or after {{min}}":
+		"{{label}} must be on or after {{min}}",
+	"{{label}} must be on or before {{max}}":
+		"{{label}} must be on or before {{max}}",
+	"{{label}} must be a valid time in HH:MM format":
+		"{{label}} must be a valid time in HH:MM format",
+	"{{label}} must be at or after {{min}}":
+		"{{label}} must be at or after {{min}}",
+	"{{label}} must be at or before {{max}}":
+		"{{label}} must be at or before {{max}}",
+	"{{label}} cannot have more than {{maxFiles}} files":
+		"{{label}} cannot have more than {{maxFiles}} files",
 };
 
 const fieldTr = {
-    en,
-    uk: {
-        email: 'Електронна пошта',
-        password: 'Пароль',
-        required: "Обов'язкове поле",
-        'Invalid email address': 'Невірна адреса електронної пошти',
-        '{{label}} is required': "{{label}} обов'язково",
-        '{{label}} must be at least {{min}}': '{{label}} має бути не менше {{min}}',
-        '{{label}} must be at most {{max}}': '{{label}} має бути не більше {{max}}',
-        '{{label}} must be checked': '{{label}} має бути позначене',
-        '{{label}} must be on or after {{min}}': '{{label}} має бути не раніше {{min}}',
-        '{{label}} must be on or before {{max}}': '{{label}} має бути не пізніше {{max}}',
-        '{{label}} must be a valid time in HH:MM format': '{{label}} має містити час у форматі HH:MM',
-        '{{label}} must be at or after {{min}}': '{{label}} має бути не раніше {{min}}',
-        '{{label}} must be at or before {{max}}': '{{label}} має бути не пізніше {{max}}',
-        '{{label}} cannot have more than {{maxFiles}} files': '{{label}} може містити не більше {{maxFiles}} файлів',
-    },
-    ru: {
-        email: 'Электронная почта',
-        password: 'Пароль',
-        required: 'Обязательное поле',
-        'Invalid email address': 'Неверный адрес электронной почты',
-        '{{label}} is required': '{{label}} обязательно',
-        '{{label}} must be at least {{min}}': '{{label}} должно быть не менее {{min}}',
-        '{{label}} must be at most {{max}}': '{{label}} должно быть не более {{max}}',
-        '{{label}} must be checked': '{{label}} должно быть отмечено',
-        '{{label}} must be on or after {{min}}': '{{label}} должно быть не раньше {{min}}',
-        '{{label}} must be on or before {{max}}': '{{label}} должно быть не позже {{max}}',
-        '{{label}} must be a valid time in HH:MM format': '{{label}} должно содержать время в формате HH:MM',
-        '{{label}} must be at or after {{min}}': '{{label}} должно быть не раньше {{min}}',
-        '{{label}} must be at or before {{max}}': '{{label}} должно быть не позже {{max}}',
-        '{{label}} cannot have more than {{maxFiles}} files': '{{label}} может содержать не более {{maxFiles}} файлов',
-    },
+	en,
+	uk: {
+		email: "Електронна пошта",
+		password: "Пароль",
+		required: "Обов'язкове поле",
+		"Invalid email address": "Невірна адреса електронної пошти",
+		"{{label}} is required": "{{label}} обов'язково",
+		"{{label}} must be one of the available options":
+			"{{label}} має бути одним із доступних варіантів",
+		"{{label}} must be at least {{min}}":
+			"{{label}} має бути не менше {{min}}",
+		"{{label}} must be at most {{max}}":
+			"{{label}} має бути не більше {{max}}",
+		"{{label}} must be checked": "{{label}} має бути позначене",
+		"{{label}} must be on or after {{min}}":
+			"{{label}} має бути не раніше {{min}}",
+		"{{label}} must be on or before {{max}}":
+			"{{label}} має бути не пізніше {{max}}",
+		"{{label}} must be a valid time in HH:MM format":
+			"{{label}} має містити час у форматі HH:MM",
+		"{{label}} must be at or after {{min}}":
+			"{{label}} має бути не раніше {{min}}",
+		"{{label}} must be at or before {{max}}":
+			"{{label}} має бути не пізніше {{max}}",
+		"{{label}} cannot have more than {{maxFiles}} files":
+			"{{label}} може містити не більше {{maxFiles}} файлів",
+	},
+	ru: {
+		email: "Электронная почта",
+		password: "Пароль",
+		required: "Обязательное поле",
+		"Invalid email address": "Неверный адрес электронной почты",
+		"{{label}} is required": "{{label}} обязательно",
+		"{{label}} must be one of the available options":
+			"{{label}} должно быть одним из доступных вариантов",
+		"{{label}} must be at least {{min}}":
+			"{{label}} должно быть не менее {{min}}",
+		"{{label}} must be at most {{max}}":
+			"{{label}} должно быть не более {{max}}",
+		"{{label}} must be checked": "{{label}} должно быть отмечено",
+		"{{label}} must be on or after {{min}}":
+			"{{label}} должно быть не раньше {{min}}",
+		"{{label}} must be on or before {{max}}":
+			"{{label}} должно быть не позже {{max}}",
+		"{{label}} must be a valid time in HH:MM format":
+			"{{label}} должно содержать время в формате HH:MM",
+		"{{label}} must be at or after {{min}}":
+			"{{label}} должно быть не раньше {{min}}",
+		"{{label}} must be at or before {{max}}":
+			"{{label}} должно быть не позже {{max}}",
+		"{{label}} cannot have more than {{maxFiles}} files":
+			"{{label}} может содержать не более {{maxFiles}} файлов",
+	},
 } satisfies Record<string, Record<keyof typeof en, string>>;
 
 export type FormLanguage = keyof typeof fieldTr;

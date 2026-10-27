@@ -155,10 +155,19 @@ export default function Field({
 	}
 
 	// Add validation classes
+	const currentValue = controllerField.value;
+	const isEmpty =
+		currentValue === undefined ||
+		currentValue === null ||
+		currentValue === "" ||
+		(Array.isArray(currentValue) && currentValue.length === 0);
+
 	if (fieldState.error) {
 		baseProps.className += " is-invalid";
 	} else if (
 		!baseProps.className.includes("form-check-input") &&
+		// An empty optional field has nothing to confirm as valid
+		!(isEmpty && !field.isRequired) &&
 		(fieldState.isTouched || (isDirty ?? fieldState.isDirty))
 	) {
 		baseProps.className += " is-valid";

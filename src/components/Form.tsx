@@ -83,7 +83,7 @@ export default function Form({
 			await onSubmit(data);
 			reset(data);
 		} catch (error: any) {
-			toast.error(tr.failed);
+			toast.error(error instanceof Error && error.message ? error.message : tr.failed);
 		}
 	};
 

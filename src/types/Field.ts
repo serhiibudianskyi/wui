@@ -238,9 +238,20 @@ export class FieldFactory {
 		}
 
 		if (typeof config.min === "number") {
-			schema = schema.min(config.min, {
-				message: "{{label}} must be at least {{min}}",
-			});
+			const min = config.min;
+			const message = "{{label}} must be at least {{min}}";
+
+			// An empty optional field is valid; min applies only once it is filled
+			schema = config.isRequired
+				? schema.min(min, {
+						message,
+					})
+				: schema.refine(
+						(value) => value === "" || value.length >= min,
+						{
+							message,
+						},
+					);
 		}
 
 		if (typeof config.max === "number") {

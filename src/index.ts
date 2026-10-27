@@ -12,3 +12,5 @@ export { default as Field } from "./components/Field";
 export { default as FileField } from "./components/FileField";
 export { default as Form } from "./components/Form";
 export type { FormLanguage } from "./components/Form";
+export { default as Modal } from "./components/Modal";
+export type { ModalProps } from "./components/Modal";
